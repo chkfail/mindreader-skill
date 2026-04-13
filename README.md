@@ -223,6 +223,8 @@ If you read all three of those paragraphs and still want to use it: welcome. If 
 
 ## 🚀 Quickstart
 
+**Prerequisite:** install [Claude Code](https://github.com/anthropics/claude-code) first. This repository is a Skill for Claude Code, not a standalone app. Thanks to `@anthropics` for the underlying toolchain.
+
 ### macOS / Linux
 
 ```bash
