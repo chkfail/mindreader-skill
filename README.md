@@ -314,13 +314,11 @@ A: Yes, easily. Especially if the chat logs only cover one type of situation (e.
 
 - [x] v0.1 — Séance + Rehearsal MVP
 - [ ] v0.2 — Calibrate Mode + Multi-shadow management + version rollback
-- [ ] v0.3 — Shadow-vs-shadow conversations (let your boss's shadow argue with your mom's shadow)
-- [ ] v0.4 — Web demo (no install, just play)
-- [ ] v0.5 — Blind test mode: given a chat snippet, guess if it's a real human or the shadow
-- [ ] v0.6 — Shadow journal: let the shadow write its own take on you
-- [ ] v0.7 — Group chat shadows: build multiple shadows from a group log and simulate the group dynamic
-- [ ] v0.8 — Shadow-of-the-shadow: let the shadow predict what you'll do next, score it against reality
-- [ ] v1.0 — Standardized plugin spec, any persona skill can plug in
+- [ ] v0.3 — Shadow journal: let the shadow write its own take on you
+- [ ] v0.4 — Shadow-of-the-shadow: let the shadow predict what you'll do next, score it against reality
+- [ ] v0.5 — Shadow mirror: the shadow builds a reverse-portrait of YOU from the same chat logs — see yourself through their eyes
+- [ ] v0.6 — Reverse rehearsal: the shadow rehearses how THEY would approach YOU about something — discover the conversations they never started
+- [ ] v0.7 — Shadow drift: feed conversations from different time periods, watch how the person changed over months or years
 
 ---
 
