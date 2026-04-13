@@ -327,7 +327,6 @@ A: 会,而且很容易。特别是当聊天记录只覆盖一种场景的时候(
 
 - [ex-skill](https://github.com/titanwings/ex-skill) by [@titanwings](https://github.com/titanwings) — 精神祖先,人格生成方法论的源头
 - [AgentSkills](https://github.com/anthropics/claude-code) 开放标准
-- 所有在 issue 区骂过我们但留下来一起改的人
 
 ---
 

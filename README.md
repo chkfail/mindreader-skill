@@ -339,7 +339,6 @@ Especially welcome:
 
 - [ex-skill](https://github.com/titanwings/ex-skill) by [@titanwings](https://github.com/titanwings) — the spiritual ancestor and the source of the persona methodology
 - [AgentSkills](https://github.com/anthropics/claude-code) open standard
-- Everyone who showed up in the issue tracker to yell at us and stayed to help fix it
 
 ---
 
