@@ -19,11 +19,13 @@
 
 Build a **digital shadow** of anyone real — your ex, your boss, the person you can't read, a difficult client, your parents.
 
-Then do two things with it:
+Then do three things with it:
 
 🕯️ **Séance Mode `/seance`** — Pull up an old conversation. Ask the shadow: *"What were they actually thinking?"*
 
 🎭 **Rehearsal Mode `/rehearse`** — Before you say it to the real person, run it past their shadow first.
+
+📐 **Calibrate Mode `/calibrate`** — Feed in a real conversation. The shadow predicts the second half. See how close it gets.
 
 > This is a **hypothesis generator**, not mind-reading. It won't tell you "the truth." It will tell you **the possibilities you didn't think of.** That distinction matters. There's a whole section on it below.
 
@@ -119,6 +121,82 @@ mindreader   ❯ Ran 5 simulated rounds. Goal achievement: 2/10.
 
 ---
 
+### 📐 Calibrate Mode — *"How well does my shadow actually know them?"*
+
+You've built a shadow of your partner. But how accurate is it, really? Feed in a real conversation and find out:
+
+```
+You          ❯ /mindreader calibrate
+
+mindreader   ❯ Paste a complete real conversation (at least 10 messages).
+
+You          ❯ [pastes 30 messages]
+
+mindreader   ❯ Got 30 messages.
+             ❯
+             ❯ Split plan:
+             ❯   First half: messages 1–15 (fed to shadow)
+             ❯   Second half: messages 16–30 (shadow predicts)
+             ❯
+             ❯ Start calibration?
+
+You          ❯ Go.
+
+mindreader   ❯ ━━━ Shadow Calibration Report ━━━
+             ❯
+             ❯ 📊 Score: 7.2/10
+             ❯
+             ❯ 30 messages (15 context / 15 predicted)
+             ❯ Shadow predicted 8 of their replies
+             ❯
+             ❯ ━━━ Side-by-side ━━━
+             ❯
+             ❯ Message #17 (them):
+             ❯   Real:   "lol ok whatever you say"
+             ❯   Shadow: "haha sure sure"
+             ❯   Score: 8/10
+             ❯   Analysis: Same dismissive-affectionate tone.
+             ❯             Shadow nailed the vibe, missed the
+             ❯             specific phrasing.
+             ❯
+             ❯ Message #22 (them):
+             ❯   Real:   "can we not do this rn"
+             ❯   Shadow: "I don't want to talk about this"
+             ❯   Score: 7/10
+             ❯   Analysis: Same avoidance, but shadow was too
+             ❯             formal — real version is more clipped.
+             ❯
+             ❯ ━━━ Dimension Scores ━━━
+             ❯
+             ❯   Semantic direction: 7.8/10  ████████░░
+             ❯   Emotional tone:     7.5/10  ████████░░
+             ❯   Expression style:   6.2/10  ██████░░░░
+             ❯   Behavioral choice:  7.0/10  ███████░░░
+             ❯
+             ❯ ━━━ Diagnosis ━━━
+             ❯
+             ❯ Strengths: Shadow reads their emotional direction
+             ❯   well — knows when they'll deflect vs. engage.
+             ❯ Blind spots: Expression style is off — shadow is
+             ❯   too "proper," real person uses more slang/abbrevs.
+             ❯ Suggestion: Feed more casual/daily chat logs to
+             ❯   calibrate the shadow's register.
+             ❯
+             ❯ ⚠️  This score doesn't mean "how well you know them."
+             ❯     It means: given the data you fed the shadow, how
+             ❯     well can it reproduce their expression. Biased
+             ❯     data → biased score. Complete data → still maybe
+             ❯     biased, because people aren't models.
+             ❯
+             ❯ 📸 Screenshot and share:
+             ❯    "My shadow scored 72% — how about yours?"
+             ❯    #mindreader #digitalshadow
+```
+
+**Key design: the score is decomposed into four dimensions with side-by-side comparisons, so you see _where_ the shadow is strong and _where_ it drifts.** And of course, it ships with a warning that the score measures the shadow's data, not your understanding.
+
+---
+
 ## 🧠 Why this exists (and why it's built the way it is)
 
 Let's be direct: this project sits in an ethical gray zone. We know.
@@ -160,6 +238,7 @@ mkdir -p .claude/skills && \
 /mindreader build         # Build a new shadow
 /seance                   # Séance mode
 /rehearse                 # Rehearsal mode
+/mindreader calibrate     # Calibrate shadow accuracy
 /mindreader list          # List all shadows you've built
 /mindreader forget <n>    # Delete a shadow
 ```
@@ -188,13 +267,13 @@ mkdir -p .claude/skills && \
 │   ┌─────────────────┐                                   │
 │   │  Shadow object  │                                   │
 │   └─────────────────┘                                   │
-│       │           │                                     │
-│       ▼           ▼                                     │
-│  ┌─────────┐  ┌──────────┐                              │
-│  │ /seance │  │/rehearse │                              │
-│  └─────────┘  └──────────┘                              │
-│  multi-reading  5 rounds +                              │
-│  + evidence     inner monologue                         │
+│       │           │          │                           │
+│       ▼           ▼          ▼                           │
+│  ┌─────────┐ ┌──────────┐ ┌────────────┐                │
+│  │ /seance │ │/rehearse │ │/calibrate  │                │
+│  └─────────┘ └──────────┘ └────────────┘                │
+│  multi-reading 5 rounds +  split & predict              │
+│  + evidence    inner mono  + score + share              │
 │                                                         │
 └─────────────────────────────────────────────────────────┘
 ```
@@ -234,7 +313,7 @@ A: Yes, easily. Especially if the chat logs only cover one type of situation (e.
 ## 🗺️ Roadmap
 
 - [x] v0.1 — Séance + Rehearsal MVP
-- [ ] v0.2 — Multi-shadow management + version rollback
+- [ ] v0.2 — Calibrate Mode + Multi-shadow management + version rollback
 - [ ] v0.3 — Shadow-vs-shadow conversations (let your boss's shadow argue with your mom's shadow)
 - [ ] v0.4 — Web demo (no install, just play)
 - [ ] v0.5 — Blind test mode: given a chat snippet, guess if it's a real human or the shadow

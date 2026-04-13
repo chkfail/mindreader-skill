@@ -22,6 +22,7 @@ Stop guessing what they really meant. Stop rehearsing in your head. Talk to thei
 /mindreader forget <slug> → 删除影子
 /mindreader seance       → 进入 Séance Mode
 /mindreader rehearse     → 进入 Rehearsal Mode
+/mindreader calibrate    → 校准影子准确度
 ```
 
 ---
@@ -209,6 +210,46 @@ python tools/shadow_manager.py --action delete --slug {slug} --base-dir ./shadow
 
 ---
 
+## `/mindreader calibrate` — 校准模式
+
+**目的**：用真实对话验证影子的准确度
+
+### 工作流程
+
+1. 用户提供一段完整的真实对话（至少 10 条）
+2. 按 50/50 拆分：前半段喂给影子，后半段留作对照
+3. 影子基于前半段上下文，逐条续写后半段中对方的回复
+4. 逐条对比影子预测 vs 真实回复，按 4 个维度打分
+5. 输出校准报告（总分 + 逐条对比 + 维度评分 + 诊断）
+
+### 对比维度
+
+| 维度 | 权重 | 评估内容 |
+|------|------|----------|
+| 语义方向 | 40% | 说的是同一个意思吗 |
+| 情绪基调 | 30% | 情绪一致吗 |
+| 表达风格 | 20% | 用词/语气/emoji 像吗 |
+| 行为选择 | 10% | 主动/被动、追问/转移等 |
+
+### 输出要求
+
+必须输出：
+- 总分（0-10 加权平均）
+- 逐条对比（真实 vs 影子预测 + 单条评分 + 分析）
+- 维度评分（4 个维度各自的平均分）
+- 诊断（强项 + 盲区 + 改进建议）
+
+最后必须有自警告：
+```
+⚠️ 这个分数不代表"你有多了解 TA"。
+它代表的是：基于你喂给影子的数据，影子能在多大程度上复现 TA 的表达。
+影子是假设生成器，不是复读机。
+```
+
+详见 `prompts/calibrate.md`。
+
+---
+
 ## 持续进化
 
 ### 追加记录
@@ -241,6 +282,7 @@ python tools/shadow_manager.py --action delete --slug {slug} --base-dir ./shadow
 | `prompts/seance.md` | Séance Mode 分析 |
 | `prompts/rehearsal.md` | Rehearsal Mode 模拟 |
 | `prompts/merger.md` | 追加记录 merge |
+| `prompts/calibrate.md` | 校准模式对比评分 |
 | `prompts/correction_handler.md` | 对话纠正处理 |
 | `tools/shadow_manager.py` | 影子文件管理 |
 | `tools/version_manager.py` | 版本存档与回滚 |
