@@ -7,7 +7,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-AgentSkill-purple)](https://github.com/anthropics/claude-code)
-[![Stars](https://img.shields.io/github/stars/YOUR_HANDLE/mindreader-skill?style=social)](https://github.com/YOUR_HANDLE/mindreader-skill)
+[![Stars](https://img.shields.io/github/stars/chkfail/mindreader-skill?style=social)](https://github.com/chkfail/mindreader-skill)
 
 [中文版 README](./README.zh.md) · [Demo](#-demo) · [Quickstart](#-quickstart) · [FAQ](#-faq)
 
@@ -147,11 +147,11 @@ If you read all three of those paragraphs and still want to use it: welcome. If 
 
 ```bash
 # Install (Claude Code, global)
-git clone https://github.com/YOUR_HANDLE/mindreader-skill ~/.claude/skills/mindreader
+git clone https://github.com/chkfail/mindreader-skill ~/.claude/skills/mindreader
 
 # Or install per-project
 mkdir -p .claude/skills && \
-  git clone https://github.com/YOUR_HANDLE/mindreader-skill .claude/skills/mindreader
+  git clone https://github.com/chkfail/mindreader-skill .claude/skills/mindreader
 ```
 
 **First run:**
