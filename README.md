@@ -21,11 +21,11 @@ Build a **digital shadow** of anyone real — your ex, your boss, the person you
 
 Then do three things with it:
 
-🕯️ **Séance Mode `/seance`** — Pull up an old conversation. Ask the shadow: *"What were they actually thinking?"*
+🕯️ **Séance Mode `/mindreader seance`** — Pull up an old conversation. Ask the shadow: *"What were they actually thinking?"*
 
-🎭 **Rehearsal Mode `/rehearse`** — Before you say it to the real person, run it past their shadow first.
+🎭 **Rehearsal Mode `/mindreader rehearse`** — Before you say it to the real person, run it past their shadow first.
 
-📐 **Calibrate Mode `/calibrate`** — Feed in a real conversation. The shadow predicts the second half. See how close it gets.
+📐 **Calibrate Mode `/mindreader calibrate`** — Feed in a real conversation. The shadow predicts the second half. See how close it gets.
 
 > This is a **hypothesis generator**, not mind-reading. It won't tell you "the truth." It will tell you **the possibilities you didn't think of.** That distinction matters. There's a whole section on it below.
 
@@ -33,12 +33,12 @@ Then do three things with it:
 
 ## 🎬 Demo
 
-### 🕯️ Séance Mode — *"What did they actually mean?"*
+### 🕯️ `/mindreader seance` — *"What did they actually mean?"*
 
 You dig up a conversation from three months ago. You still can't figure out what they meant by *"whatever, it's fine."* Feed it in:
 
 ```
-You          ❯ /seance
+You          ❯ /mindreader seance
 
 mindreader   ❯ Paste the conversation. Then tell me what you're stuck on.
 
@@ -74,12 +74,12 @@ mindreader   ❯ I see 3 contradictory readings in these 20 messages.
 
 ---
 
-### 🎭 Rehearsal Mode — *"Run the conversation 100 times before it happens once."*
+### 🎭 `/mindreader rehearse` — *"Run the conversation 100 times before it happens once."*
 
 You want to ask your boss for a raise. You also know your boss is the kind of person who shuts down the moment they feel cornered. Run it past the shadow first:
 
 ```
-You          ❯ /rehearse
+You          ❯ /mindreader rehearse
 
 mindreader   ❯ What's your goal? (one sentence)
 
@@ -121,7 +121,7 @@ mindreader   ❯ Ran 5 simulated rounds. Goal achievement: 2/10.
 
 ---
 
-### 📐 Calibrate Mode — *"How well does my shadow actually know them?"*
+### 📐 `/mindreader calibrate` — *"How well does my shadow actually know them?"*
 
 You've built a shadow of your partner. But how accurate is it, really? Feed in a real conversation and find out:
 
@@ -236,8 +236,8 @@ mkdir -p .claude/skills && \
 
 ```
 /mindreader build         # Build a new shadow
-/seance                   # Séance mode
-/rehearse                 # Rehearsal mode
+/mindreader seance        # Séance mode
+/mindreader rehearse      # Rehearsal mode
 /mindreader calibrate     # Calibrate shadow accuracy
 /mindreader list          # List all shadows you've built
 /mindreader forget <n>    # Delete a shadow

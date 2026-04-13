@@ -14,7 +14,7 @@
 
 ## 触发条件
 
-用户说 `/rehearse` 或"我要跟 TA 说..."
+用户说 `/mindreader rehearse` 或"我要跟 TA 说..."
 
 ---
 

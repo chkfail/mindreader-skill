@@ -126,12 +126,13 @@ shadows/{slug}/
 ✅ 影子已构建完成：{name}
 
 后续操作：
-  /mindreader seance        # 分析过去的对话
-  /mindreader rehearse      # 预演未来的对话
-  追加记录 / append         # 粘贴新的聊天记录
-  纠正 / correct            # 说"这不对，TA 不会这样"
+  /mindreader seance         # 分析过去的对话
+  /mindreader rehearse       # 预演未来的对话
+  /mindreader calibrate      # 校准影子准确度
+  追加记录 / append          # 粘贴新的聊天记录
+  纠正 / correct             # 说"这不对，TA 不会这样"
   /mindreader list           # 查看所有影子
-  /mindreader forget <slug> # 删除影子
+  /mindreader forget <slug>  # 删除影子
 ```
 
 ---

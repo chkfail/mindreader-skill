@@ -21,11 +21,11 @@
 
 然后你可以做三件事:
 
-🕯️ **审讯模式 `/seance`** — 翻出过去的某段对话,问影子:*"TA 当时到底在想什么?"*
+🕯️ **审讯模式 `/mindreader seance`** — 翻出过去的某段对话,问影子:*"TA 当时到底在想什么?"*
 
-🎭 **预演模式 `/rehearse`** — 在和真人开口前,先把你要说的话在影子身上跑一遍。
+🎭 **预演模式 `/mindreader rehearse`** — 在和真人开口前,先把你要说的话在影子身上跑一遍。
 
-📐 **校准模式 `/calibrate`** — 喂一段真实对话,影子猜后半段,看它猜得有多准。
+📐 **校准模式 `/mindreader calibrate`** — 喂一段真实对话,影子猜后半段,看它猜得有多准。
 
 > 这是一个**假设生成器**,不是读心术。它不会告诉你"真相",它会告诉你**你没想到的可能性**。区别很重要,下面有一整段在讲为什么。
 
@@ -33,12 +33,12 @@
 
 ## 🎬 Demo
 
-### 🕯️ 审讯模式 — *"TA 那句话到底什么意思?"*
+### 🕯️ `/mindreader seance` — *"TA 那句话到底什么意思?"*
 
 你翻出三个月前的一段对话,死活想不通 TA 那句"随便吧"到底什么意思。把对话片段喂进去:
 
 ```
-你           ❯ /seance
+你           ❯ /mindreader seance
 
 mindreader   ❯ 把那段对话粘进来,再告诉我你卡在哪里。
 
@@ -72,12 +72,12 @@ mindreader   ❯ 我从这 20 条里读到 3 种相互矛盾的可能性。
 
 ---
 
-### 🎭 预演模式 — *"在真的开口之前,先在影子身上跑一遍。"*
+### 🎭 `/mindreader rehearse` — *"在真的开口之前,先在影子身上跑一遍。"*
 
 你想跟老板提加薪,但你也知道老板是那种一被冒犯就翻脸的人。先在影子身上跑一遍:
 
 ```
-你           ❯ /rehearse
+你           ❯ /mindreader rehearse
 
 mindreader   ❯ 目标是什么?(一句话)
 
@@ -114,7 +114,7 @@ mindreader   ❯ 跑了 5 轮模拟,目标达成度 2/10。
 
 ---
 
-### 📐 校准模式 — *"我的影子到底有多准?"*
+### 📐 `/mindreader calibrate` — *"我的影子到底有多准?"*
 
 你给前任建了个影子,但它到底准不准?拿一段真实对话来测:
 
@@ -224,8 +224,8 @@ mkdir -p .claude/skills && \
 
 ```
 /mindreader build         # 建一个新的影子
-/seance                   # 审讯模式
-/rehearse                 # 预演模式
+/mindreader seance        # 审讯模式
+/mindreader rehearse      # 预演模式
 /mindreader calibrate     # 校准影子准确度
 /mindreader list          # 看你建过哪些影子
 /mindreader forget <n>    # 删除一个影子
