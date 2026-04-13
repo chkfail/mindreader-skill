@@ -12,30 +12,85 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 import shutil
-import argparse
 import sys
-from pathlib import Path
 from datetime import datetime, timezone
+from pathlib import Path
 
 MAX_VERSIONS = 10
+VERSIONS_DIR_NAME = "versions"
 
 
-def list_versions(shadow_dir: Path) -> list:
-    versions_dir = shadow_dir / "versions"
+def configure_stdio() -> None:
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            try:
+                stream.reconfigure(encoding="utf-8", errors="replace")
+            except ValueError:
+                pass
+
+
+def _copy_entry(src: Path, dst: Path) -> None:
+    if src.is_dir():
+        shutil.copytree(src, dst)
+    else:
+        shutil.copy2(src, dst)
+
+
+def _iter_state_entries(shadow_dir: Path) -> list[Path]:
+    return [
+        entry for entry in shadow_dir.iterdir()
+        if entry.name != VERSIONS_DIR_NAME
+    ]
+
+
+def _read_meta(meta_path: Path) -> dict:
+    if not meta_path.exists():
+        return {}
+    return json.loads(meta_path.read_text(encoding="utf-8"))
+
+
+def snapshot_current_state(shadow_dir: Path, version_name: str, *, overwrite: bool = False) -> Path:
+    versions_dir = shadow_dir / VERSIONS_DIR_NAME
+    versions_dir.mkdir(parents=True, exist_ok=True)
+
+    snapshot_dir = versions_dir / version_name
+    if snapshot_dir.exists():
+        if not overwrite:
+            raise FileExistsError(f"版本快照已存在：{version_name}")
+        shutil.rmtree(snapshot_dir)
+    snapshot_dir.mkdir(parents=True, exist_ok=True)
+
+    for entry in _iter_state_entries(shadow_dir):
+        _copy_entry(entry, snapshot_dir / entry.name)
+
+    return snapshot_dir
+
+
+def list_versions(shadow_dir: Path) -> list[dict]:
+    versions_dir = shadow_dir / VERSIONS_DIR_NAME
     if not versions_dir.exists():
         return []
 
     versions = []
-    for v_dir in sorted(versions_dir.iterdir()):
-        if not v_dir.is_dir():
-            continue
-        mtime = v_dir.stat().st_mtime
-        archived_at = datetime.fromtimestamp(mtime, tz=timezone.utc).strftime("%Y-%m-%d %H:%M")
-        files = [f.name for f in v_dir.iterdir() if f.is_file()]
+    for version_dir in sorted(
+        [entry for entry in versions_dir.iterdir() if entry.is_dir()],
+        key=lambda entry: entry.stat().st_mtime,
+        reverse=True,
+    ):
+        archived_at = datetime.fromtimestamp(
+            version_dir.stat().st_mtime,
+            tz=timezone.utc,
+        ).strftime("%Y-%m-%d %H:%M")
+        files = sorted(
+            str(path.relative_to(version_dir))
+            for path in version_dir.rglob("*")
+            if path.is_file()
+        )
         versions.append({
-            "version": v_dir.name,
+            "version": version_dir.name,
             "archived_at": archived_at,
             "files": files,
         })
@@ -44,48 +99,53 @@ def list_versions(shadow_dir: Path) -> list:
 
 
 def rollback(shadow_dir: Path, target_version: str) -> bool:
-    version_dir = shadow_dir / "versions" / target_version
+    version_dir = shadow_dir / VERSIONS_DIR_NAME / target_version
     if not version_dir.exists():
         print(f"错误：版本 {target_version} 不存在", file=sys.stderr)
         return False
 
     meta_path = shadow_dir / "meta.json"
-    if meta_path.exists():
-        meta = json.loads(meta_path.read_text(encoding="utf-8"))
-        current_version = meta.get("version", "v?")
-        backup_dir = shadow_dir / "versions" / f"{current_version}_before_rollback"
-        backup_dir.mkdir(parents=True, exist_ok=True)
-        for fname in ("shadow.md",):
-            src = shadow_dir / fname
-            if src.exists():
-                shutil.copy2(src, backup_dir / fname)
+    current_meta = _read_meta(meta_path)
+    current_version = current_meta.get("version", "v?")
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    backup_version = f"{current_version}_before_rollback_{timestamp}"
+    snapshot_current_state(shadow_dir, backup_version)
+
+    for entry in _iter_state_entries(shadow_dir):
+        if entry.is_dir():
+            shutil.rmtree(entry)
+        else:
+            entry.unlink()
 
     restored_files = []
-    for fname in ("shadow.md",):
-        src = version_dir / fname
-        if src.exists():
-            shutil.copy2(src, shadow_dir / fname)
-            restored_files.append(fname)
+    for entry in version_dir.iterdir():
+        destination = shadow_dir / entry.name
+        _copy_entry(entry, destination)
+        if entry.is_dir():
+            restored_files.extend(
+                sorted(str(path.relative_to(shadow_dir)) for path in destination.rglob("*") if path.is_file())
+            )
+        else:
+            restored_files.append(entry.name)
 
-    if meta_path.exists():
-        meta = json.loads(meta_path.read_text(encoding="utf-8"))
-        meta["version"] = target_version + "_restored"
-        meta["updated_at"] = datetime.now(timezone.utc).isoformat()
-        meta["rollback_from"] = current_version
-        meta_path.write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
+    restored_meta = _read_meta(meta_path)
+    restored_meta["version"] = f"{target_version}_restored"
+    restored_meta["updated_at"] = datetime.now(timezone.utc).isoformat()
+    restored_meta["rollback_from"] = current_version
+    meta_path.write_text(json.dumps(restored_meta, ensure_ascii=False, indent=2), encoding="utf-8")
 
-    print(f"已回滚到 {target_version}，恢复文件：{', '.join(restored_files)}")
+    print(f"已回滚到 {target_version}，恢复文件：{', '.join(sorted(restored_files))}")
     return True
 
 
-def cleanup_old_versions(shadow_dir: Path, max_versions: int = MAX_VERSIONS):
-    versions_dir = shadow_dir / "versions"
+def cleanup_old_versions(shadow_dir: Path, max_versions: int = MAX_VERSIONS) -> None:
+    versions_dir = shadow_dir / VERSIONS_DIR_NAME
     if not versions_dir.exists():
         return
 
     version_dirs = sorted(
-        [d for d in versions_dir.iterdir() if d.is_dir()],
-        key=lambda d: d.stat().st_mtime,
+        [entry for entry in versions_dir.iterdir() if entry.is_dir()],
+        key=lambda entry: entry.stat().st_mtime,
     )
     to_delete = version_dirs[:-max_versions] if len(version_dirs) > max_versions else []
     for old_dir in to_delete:
@@ -93,7 +153,9 @@ def cleanup_old_versions(shadow_dir: Path, max_versions: int = MAX_VERSIONS):
         print(f"已清理旧版本：{old_dir.name}")
 
 
-def main():
+def main() -> None:
+    configure_stdio()
+
     parser = argparse.ArgumentParser(description="mindreader 影子版本管理器")
     parser.add_argument("--action", required=True, choices=["list", "rollback", "cleanup"])
     parser.add_argument("--slug", required=True, help="影子 slug")
@@ -114,14 +176,16 @@ def main():
             print(f"{args.slug} 暂无历史版本")
         else:
             print(f"{args.slug} 的历史版本：\n")
-            for v in versions:
-                print(f"  {v['version']}  存档时间: {v['archived_at']}  文件: {', '.join(v['files'])}")
+            for version in versions:
+                files = ", ".join(version["files"]) if version["files"] else "无文件"
+                print(f"  {version['version']}  存档时间: {version['archived_at']}  文件: {files}")
 
     elif args.action == "rollback":
         if not args.version:
             print("错误：rollback 操作需要 --version", file=sys.stderr)
             sys.exit(1)
-        rollback(shadow_dir, args.version)
+        if not rollback(shadow_dir, args.version):
+            sys.exit(1)
 
     elif args.action == "cleanup":
         cleanup_old_versions(shadow_dir)

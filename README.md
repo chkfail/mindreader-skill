@@ -11,7 +11,7 @@
 
 [中文版 README](./README.zh.md) · [Demo](#-demo) · [Quickstart](#-quickstart) · [FAQ](#-faq)
 
-> ⚠️ **This is a v0.1 toy project. Things will break. The ethics are unresolved on purpose. Read the [Why this exists](#-why-this-exists-and-why-its-built-the-way-it-is) section before starring.**
+> ⚠️ **This is an early v0.2 project. Things will still break. The ethics are unresolved on purpose. Read the [Why this exists](#-why-this-exists-and-why-its-built-the-way-it-is) section before starring.**
 
 </div>
 
@@ -240,7 +240,7 @@ mkdir -p .claude/skills && \
 /mindreader rehearse      # Rehearsal mode
 /mindreader calibrate     # Calibrate shadow accuracy
 /mindreader list          # List all shadows you've built
-/mindreader forget <n>    # Delete a shadow
+/mindreader forget <slug> # Delete a shadow
 ```
 
 **Feeding data:**
@@ -300,7 +300,7 @@ A: Technically yes. Psychologically, think it through: when you start treating e
 A: Yes. Any tool that helps you understand humans can be used to manipulate them — Sun Tzu, *How to Win Friends*, every psychology textbook. Our mitigations: (1) forced multi-reading output, which kills the "I cracked them" illusion; (2) Rehearsal Mode caps at 5 rounds to limit overfitting; (3) this entire README. The rest is on you.
 
 **Q: Where's my data stored? Does it get uploaded?**
-A: 100% local. Shadow files live under `~/.claude/skills/mindreader/shadows/`. No server, no telemetry, no cloud. If you delete the file, it's gone.
+A: 100% local. Shadow files live under the skill install directory's `shadows/` folder. Global install usually means `~/.claude/skills/mindreader/shadows/`; per-project install usually means `.claude/skills/mindreader/shadows/` inside that project. No server, no telemetry, no cloud. If you delete the files, they're gone.
 
 **Q: Does it work in languages other than English?**
 A: Yes. Prompts are bilingual (EN/中文), and shadows can be built in any language. Documentation is currently EN + 中文. PRs for other languages welcome.
@@ -313,7 +313,7 @@ A: Yes, easily. Especially if the chat logs only cover one type of situation (e.
 ## 🗺️ Roadmap
 
 - [x] v0.1 — Séance + Rehearsal MVP
-- [ ] v0.2 — Calibrate Mode + Multi-shadow management + version rollback
+- [x] v0.2 — Calibrate Mode + Multi-shadow management basics + version rollback
 - [ ] v0.3 — Shadow journal: let the shadow write its own take on you
 - [ ] v0.4 — Shadow-of-the-shadow: let the shadow predict what you'll do next, score it against reality
 - [ ] v0.5 — Shadow mirror: the shadow builds a reverse-portrait of YOU from the same chat logs — see yourself through their eyes
@@ -324,7 +324,7 @@ A: Yes, easily. Especially if the chat logs only cover one type of situation (e.
 
 ## 🤝 Contributing
 
-This is a v0.1 demo. Bugs are guaranteed. Design will have holes. PRs, issues, criticism (technical or ethical) all welcome. We aim to reply within 48 hours.
+This is an early v0.2 demo. Bugs are guaranteed. Design will have holes. PRs, issues, criticism (technical or ethical) all welcome. We aim to reply within 48 hours.
 
 Especially welcome:
 

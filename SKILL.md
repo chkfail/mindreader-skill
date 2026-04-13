@@ -16,6 +16,10 @@ Stop guessing what they really meant. Stop rehearsing in your head. Talk to thei
 
 收到 `/mindreader` 后，按以下流程运行：
 
+先将 **当前 Skill 根目录** 记为 `{skill_root}`，它就是本 `SKILL.md` 所在目录。
+后续所有脚本路径、prompt 路径、影子存储路径都必须相对 `{skill_root}` 解析，不要依赖当前工作目录。
+影子统一存到 `{skill_root}/shadows`。
+
 ```
 /mindreader build        → 构建新影子
 /mindreader list         → 列出所有影子
@@ -103,12 +107,12 @@ Stop guessing what they really meant. Stop rehearsing in your head. Talk to thei
 
 用户确认后：
 ```bash
-python tools/shadow_manager.py --action create \
+python {skill_root}/tools/shadow_manager.py --action create \
   --slug {slug} \
   --name "{name}" \
   --meta meta.json \
   --shadow shadow_content.md \
-  --base-dir ./shadows
+  --base-dir {skill_root}/shadows
 ```
 
 创建目录结构：
@@ -140,7 +144,7 @@ shadows/{slug}/
 ## `/mindreader list` — 列出所有影子
 
 ```bash
-python tools/shadow_manager.py --action list --base-dir ./shadows
+python {skill_root}/tools/shadow_manager.py --action list --base-dir {skill_root}/shadows
 ```
 
 输出所有影子的列表（名字、关系阶段、版本、消息数、最后更新）。
@@ -150,7 +154,7 @@ python tools/shadow_manager.py --action list --base-dir ./shadows
 ## `/mindreader forget <slug>` — 删除影子
 
 ```bash
-python tools/shadow_manager.py --action delete --slug {slug} --base-dir ./shadows
+python {skill_root}/tools/shadow_manager.py --action delete --slug {slug} --base-dir {skill_root}/shadows
 ```
 
 ---
@@ -257,21 +261,21 @@ python tools/shadow_manager.py --action delete --slug {slug} --base-dir ./shadow
 
 用户说"追加记录"或粘贴新聊天记录：
 → 按 `prompts/merger.md` 执行增量 merge
-→ 调用 `shadow_manager.py --action update`
+→ 调用 `python {skill_root}/tools/shadow_manager.py --action update --base-dir {skill_root}/shadows`
 
 ### 对话纠正
 
 用户说"这不对"或"TA 不会这样"：
 → 按 `prompts/correction_handler.md` 识别并写入 Correction 层
-→ 调用 `shadow_manager.py --action update`
+→ 调用 `python {skill_root}/tools/shadow_manager.py --action correct --base-dir {skill_root}/shadows`
 
 ### 版本管理
 
 用户说"查看版本历史"：
-→ 调用 `python tools/version_manager.py --action list --slug {slug}`
+→ 调用 `python {skill_root}/tools/version_manager.py --action list --slug {slug} --base-dir {skill_root}/shadows`
 
 用户说"回滚到 v2"：
-→ 调用 `python tools/version_manager.py --action rollback --slug {slug} --version v2`
+→ 调用 `python {skill_root}/tools/version_manager.py --action rollback --slug {slug} --version v2 --base-dir {skill_root}/shadows`
 
 ---
 
