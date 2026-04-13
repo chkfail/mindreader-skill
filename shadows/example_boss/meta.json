@@ -1,0 +1,23 @@
+{
+  "name": "李总",
+  "slug": "example_boss",
+  "created_at": "2026-04-13T10:00:00Z",
+  "updated_at": "2026-04-13T10:00:00Z",
+  "version": "v1",
+  "profile": {
+    "gender": "男",
+    "age_range": "35-45",
+    "rel_stage": "上下级",
+    "duration": "2年",
+    "zodiac": "未知",
+    "mbti": "ENTJ"
+  },
+  "tags": {
+    "attachment": ["安全型"],
+    "rel_traits": ["直接", "结果导向", "不擅长情绪处理"]
+  },
+  "impression": "他不是那种会和你套近乎的领导，但他也不会亏待人。你做出成绩他看得见。和他说话要准备好，他问的问题都是真问题。",
+  "knowledge_sources": [],
+  "corrections_count": 0,
+  "message_count": 0
+}
