@@ -128,30 +128,45 @@ You've built a shadow of your partner. But how accurate is it, really? Feed in a
 ```
 You          ❯ /mindreader calibrate
 
-mindreader   ❯ Paste a complete real conversation (at least 10 messages).
-
-You          ❯ [pastes 30 messages]
-
-mindreader   ❯ Got 30 messages.
+mindreader   ❯ Calibration works in two steps. First, paste the
+             ❯ FIRST HALF of a real conversation (at least 5 msgs).
              ❯
-             ❯ Split plan:
-             ❯   First half: messages 1–15 (fed to shadow)
-             ❯   Second half: messages 16–30 (shadow predicts)
-             ❯
-             ❯ Start calibration?
+             ❯ ⚠️  Do NOT paste the full conversation at once.
+             ❯     If I see the ending, I'm "remembering," not
+             ❯     "predicting." The whole test becomes fake.
+
+You          ❯ [pastes first 15 messages]
+
+mindreader   ❯ Got 15 messages as context. Ready to predict.
+             ❯ Say "go" and I'll generate what the shadow thinks
+             ❯ happens next.
 
 You          ❯ Go.
+
+mindreader   ❯ ━━━ Shadow's Prediction ━━━
+             ❯
+             ❯ Based on these 15 messages + shadow profile:
+             ❯
+             ❯   #1 [them]:  "haha sure sure"
+             ❯   #2 [you*]:  "so are we going or not"
+             ❯   #3 [them]:  "idk you decide"
+             ❯   #4 [you*]:  "fine let's just stay in"
+             ❯   #5 [them]:  "k"
+             ❯
+             ❯   (* = shadow's guess of what you'd say)
+             ❯
+             ❯ Now paste the REAL second half. Let's see how
+             ❯ close it got.
+
+You          ❯ [pastes real messages 16–30]
 
 mindreader   ❯ ━━━ Shadow Calibration Report ━━━
              ❯
              ❯ 📊 Score: 7.2/10
              ❯
-             ❯ 30 messages (15 context / 15 predicted)
-             ❯ Shadow predicted 8 of their replies
-             ❯
              ❯ ━━━ Side-by-side ━━━
              ❯
-             ❯ Message #17 (them):
+             ❯ Prediction #1 vs Real #16 (them):
              ❯   Real:   "lol ok whatever you say"
              ❯   Shadow: "haha sure sure"
              ❯   Score: 8/10
@@ -159,12 +174,13 @@ mindreader   ❯ ━━━ Shadow Calibration Report ━━━
              ❯             Shadow nailed the vibe, missed the
              ❯             specific phrasing.
              ❯
-             ❯ Message #22 (them):
+             ❯ Prediction #3 vs Real #22 (them):
              ❯   Real:   "can we not do this rn"
-             ❯   Shadow: "I don't want to talk about this"
-             ❯   Score: 7/10
-             ❯   Analysis: Same avoidance, but shadow was too
-             ❯             formal — real version is more clipped.
+             ❯   Shadow: "idk you decide"
+             ❯   Score: 5/10
+             ❯   Analysis: Both are avoidant, but real version
+             ❯             is shutting down the topic — shadow
+             ❯             just deflected the decision.
              ❯
              ❯ ━━━ Dimension Scores ━━━
              ❯
@@ -193,7 +209,7 @@ mindreader   ❯ ━━━ Shadow Calibration Report ━━━
              ❯    #mindreader #digitalshadow
 ```
 
-**Key design: the score is decomposed into four dimensions with side-by-side comparisons, so you see _where_ the shadow is strong and _where_ it drifts.** And of course, it ships with a warning that the score measures the shadow's data, not your understanding.
+**Key design: the conversation is split into two separate pastes, so the shadow genuinely predicts without having seen the answer.** The score is decomposed into four dimensions with side-by-side comparisons, so you see _where_ the shadow is strong and _where_ it drifts. And of course, it ships with a warning that the score measures the shadow's data, not your understanding.
 
 ---
 

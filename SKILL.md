@@ -103,7 +103,49 @@ Stop guessing what they really meant. Stop rehearsing in your head. Talk to thei
 确认生成？（确认 / 修改某部分）
 ```
 
-### Step 5：写入文件
+### Step 5：保存原始聊天记录
+
+如果用户在 Step 2 粘贴了聊天记录，**必须将原始记录存档**：
+
+```bash
+# 将原始聊天记录写入 knowledge/chats/ 目录，以时间戳命名
+# 文件名格式：{YYYY-MM-DD}_{序号}.md
+# 内容格式：原始粘贴内容 + 元信息头
+```
+
+文件内容格式：
+```markdown
+---
+source: user_paste
+date: {ISO date}
+message_count: {N}
+---
+
+{用户粘贴的原始聊天记录，不做任何修改}
+```
+
+同时更新 `knowledge/chats/index.json`：
+```json
+{
+  "files": [
+    {
+      "filename": "2026-04-13_001.md",
+      "date": "2026-04-13",
+      "source": "user_paste",
+      "message_count": 42,
+      "summary": "日常闲聊，涉及加班和晚饭安排"
+    }
+  ],
+  "total_messages": 42
+}
+```
+
+**为什么要保存原始记录**：
+- 后续追加数据时可以回溯之前喂过什么
+- 不同模式（seance/calibrate）可以引用历史记录而不需要用户重新粘贴
+- 影子 merge 时可以重新分析原始数据，而不是只有提取后的结论
+
+### Step 6：写入影子文件
 
 用户确认后：
 ```bash
@@ -118,11 +160,14 @@ python {skill_root}/tools/shadow_manager.py --action create \
 创建目录结构：
 ```
 shadows/{slug}/
-  ├── shadow.md      # 影子人格
-  ├── meta.json      # 元数据
-  ├── versions/      # 历史版本
+  ├── shadow.md              # 影子人格
+  ├── meta.json              # 元数据
+  ├── versions/              # 历史版本
   └── knowledge/
-      └── chats/     # 聊天记录归档
+      └── chats/             # 聊天记录归档
+          ├── index.json     # 记录索引
+          ├── 2026-04-13_001.md  # 原始记录
+          └── ...
 ```
 
 完成后告知用户：
@@ -167,7 +212,9 @@ python {skill_root}/tools/shadow_manager.py --action delete --slug {slug} --base
 
 1. 加载对应影子
 2. 收集要分析的对话
-3. 按 prompts/seance.md 生成多个矛盾解读
+3. 展示带编号的消息列表，让用户选择分析范围（单条 / 一段 / 全部）
+4. 按 prompts/seance.md 对用户选择的范围生成多个矛盾解读
+5. 用户可以继续选择其他消息深挖，无需重新粘贴
 
 ### 输出要求
 
@@ -221,11 +268,14 @@ python {skill_root}/tools/shadow_manager.py --action delete --slug {slug} --base
 
 ### 工作流程
 
-1. 用户提供一段完整的真实对话（至少 10 条）
-2. 按 50/50 拆分：前半段喂给影子，后半段留作对照
-3. 影子基于前半段上下文，逐条续写后半段中对方的回复
-4. 逐条对比影子预测 vs 真实回复，按 4 个维度打分
-5. 输出校准报告（总分 + 逐条对比 + 维度评分 + 诊断）
+⚠️ **核心设计约束**：必须分两步收集对话。如果一次性看到完整对话，模型会"回忆"而不是"预测"，校准分数毫无意义。
+
+1. 用户先粘贴**前半段对话**（至少 5 条）
+2. 影子基于前半段上下文 + 影子人格，预测接下来 5 条对方的回复（交替模拟双方）
+3. 将预测展示给用户
+4. 用户再粘贴**真实的后半段对话**
+5. 逐条对比影子预测 vs 真实回复，按 4 个维度打分
+6. 输出校准报告（总分 + 逐条对比 + 维度评分 + 诊断）
 
 ### 对比维度
 
@@ -243,6 +293,7 @@ python {skill_root}/tools/shadow_manager.py --action delete --slug {slug} --base
 - 逐条对比（真实 vs 影子预测 + 单条评分 + 分析）
 - 维度评分（4 个维度各自的平均分）
 - 诊断（强项 + 盲区 + 改进建议）
+- 优化建议（基于失准维度给出 2-3 条具体可执行的改进操作，并引导用户立即执行）
 
 最后必须有自警告：
 ```
@@ -260,8 +311,10 @@ python {skill_root}/tools/shadow_manager.py --action delete --slug {slug} --base
 ### 追加记录
 
 用户说"追加记录"或粘贴新聊天记录：
-→ 按 `prompts/merger.md` 执行增量 merge
-→ 调用 `python {skill_root}/tools/shadow_manager.py --action update --base-dir {skill_root}/shadows`
+1. **先存档原始记录**到 `knowledge/chats/`（同 build 流程的 Step 5）
+2. 更新 `knowledge/chats/index.json`
+3. 按 `prompts/merger.md` 执行增量 merge
+4. 调用 `python {skill_root}/tools/shadow_manager.py --action update --base-dir {skill_root}/shadows`
 
 ### 对话纠正
 
