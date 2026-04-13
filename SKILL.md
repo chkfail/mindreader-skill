@@ -4,8 +4,6 @@ description: 构建数字影子，分析过去对话，预演未来对话
 user-invocable: true
 triggers:
   - /mindreader
-  - /seance
-  - /rehearse
 ---
 
 # mindreader-skill — 数字影子构建器
@@ -19,11 +17,11 @@ Stop guessing what they really meant. Stop rehearsing in your head. Talk to thei
 收到 `/mindreader` 后，按以下流程运行：
 
 ```
-/mindreader build     → 构建新影子
-/mindreader list      → 列出所有影子
-/mindreader forget    → 删除影子
-/seance               → 进入 Séance Mode
-/rehearse             → 进入 Rehearsal Mode
+/mindreader build        → 构建新影子
+/mindreader list         → 列出所有影子
+/mindreader forget <slug> → 删除影子
+/mindreader seance       → 进入 Séance Mode
+/mindreader rehearse     → 进入 Rehearsal Mode
 ```
 
 ---
@@ -127,12 +125,12 @@ shadows/{slug}/
 ✅ 影子已构建完成：{name}
 
 后续操作：
-  /seance                   # 分析过去的对话
-  /rehearse                # 预演未来的对话
-  追加记录                  # 粘贴新的聊天记录
-  纠正                      # 说"这不对，TA 不会这样"
-  /mindreader list          # 查看所有影子
-  /mindreader forget {slug} # 删除影子
+  /mindreader seance        # 分析过去的对话
+  /mindreader rehearse      # 预演未来的对话
+  追加记录 / append         # 粘贴新的聊天记录
+  纠正 / correct            # 说"这不对，TA 不会这样"
+  /mindreader list           # 查看所有影子
+  /mindreader forget <slug> # 删除影子
 ```
 
 ---
@@ -155,7 +153,7 @@ python tools/shadow_manager.py --action delete --slug {slug} --base-dir ./shadow
 
 ---
 
-## `/seance` — Séance Mode
+## `/mindreader seance` — Séance Mode
 
 **目的**：分析过去的对话，理解"他们到底在想什么"
 
@@ -182,7 +180,7 @@ python tools/shadow_manager.py --action delete --slug {slug} --base-dir ./shadow
 
 ---
 
-## `/rehearse` — Rehearsal Mode
+## `/mindreader rehearse` — Rehearsal Mode
 
 **目的**：在和真人说之前，先在影子身上预演
 
