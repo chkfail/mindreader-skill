@@ -298,28 +298,28 @@ The shadow's persona structure is based on [ex-skill](https://github.com/titanwi
 
 ## ❓ FAQ
 
-**Q: Is this legal?**
+**Q: Is this legal?**  
 A: The tool is. How you use it is on you. Don't feed it chat logs that aren't yours. Don't use it to harass, manipulate, or deceive anyone. The legal and ethical line is yours to hold.
 
-**Q: How accurate is it?**
+**Q: How accurate is it?**  
 A: Unknown and unmeasurable, because there is no ground truth. This is a hypothesis generator, not a prediction engine. If you want "scientific accuracy," this isn't your project.
 
-**Q: What's the relationship to ex-skill?**
+**Q: What's the relationship to ex-skill?**  
 A: ex-skill is the spiritual ancestor. The persona generation method is reused directly. The difference: ex-skill is for people who have already left your life (grief). mindreader is for people who are still in it (cognition). If you only want to talk to your ex's shadow, just use ex-skill — it does that better.
 
-**Q: Can I use this on my boss?**
+**Q: Can I use this on my boss?**  
 A: Technically yes. Psychologically, think it through: when you start treating everyone around you as a system to reverse-engineer, you also start becoming that system. This isn't me telling you to stop. It's me telling you to notice.
 
-**Q: Won't this get used to manipulate people?**
+**Q: Won't this get used to manipulate people?**  
 A: Yes. Any tool that helps you understand humans can be used to manipulate them — Sun Tzu, *How to Win Friends*, every psychology textbook. Our mitigations: (1) forced multi-reading output, which kills the "I cracked them" illusion; (2) Rehearsal Mode caps at 5 rounds to limit overfitting; (3) this entire README. The rest is on you.
 
-**Q: Where's my data stored? Does it get uploaded?**
+**Q: Where's my data stored? Does it get uploaded?**  
 A: 100% local. Shadow files live under `~/.claude/skills/mindreader/shadows/`. No server, no telemetry, no cloud. If you delete the files, they're gone.
 
-**Q: Does it work in languages other than English?**
+**Q: Does it work in languages other than English?**  
 A: Yes. Prompts are bilingual (EN/中文), and shadows can be built in any language. Documentation is currently EN + 中文. PRs for other languages welcome.
 
-**Q: Can the shadow be wrong about the real person in a way that hurts me?**
+**Q: Can the shadow be wrong about the real person in a way that hurts me?**  
 A: Yes, easily. Especially if the chat logs only cover one type of situation (e.g., only conflict messages, or only flirty ones). The shadow will overfit to that slice and confidently extrapolate. The fidelity warnings in every output are not boilerplate — they're load-bearing. Read them.
 
 ---
