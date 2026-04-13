@@ -223,13 +223,25 @@ If you read all three of those paragraphs and still want to use it: welcome. If 
 
 ## 🚀 Quickstart
 
-```bash
-# Install (Claude Code, global)
-git clone https://github.com/chkfail/mindreader-skill ~/.claude/skills/mindreader
+### macOS / Linux
 
-# Or install per-project
-mkdir -p .claude/skills && \
-  git clone https://github.com/chkfail/mindreader-skill .claude/skills/mindreader
+```bash
+# Install globally
+git clone https://github.com/chkfail/mindreader-skill ~/.claude/skills/mindreader
+```
+
+### Windows PowerShell
+
+```powershell
+# Install globally
+git clone https://github.com/chkfail/mindreader-skill "$HOME\\.claude\\skills\\mindreader"
+```
+
+### Windows CMD
+
+```bat
+:: Install globally
+git clone https://github.com/chkfail/mindreader-skill "%USERPROFILE%\.claude\skills\mindreader"
 ```
 
 **First run:**
@@ -300,7 +312,7 @@ A: Technically yes. Psychologically, think it through: when you start treating e
 A: Yes. Any tool that helps you understand humans can be used to manipulate them — Sun Tzu, *How to Win Friends*, every psychology textbook. Our mitigations: (1) forced multi-reading output, which kills the "I cracked them" illusion; (2) Rehearsal Mode caps at 5 rounds to limit overfitting; (3) this entire README. The rest is on you.
 
 **Q: Where's my data stored? Does it get uploaded?**
-A: 100% local. Shadow files live under the skill install directory's `shadows/` folder. Global install usually means `~/.claude/skills/mindreader/shadows/`; per-project install usually means `.claude/skills/mindreader/shadows/` inside that project. No server, no telemetry, no cloud. If you delete the files, they're gone.
+A: 100% local. Shadow files live under `~/.claude/skills/mindreader/shadows/`. No server, no telemetry, no cloud. If you delete the files, they're gone.
 
 **Q: Does it work in languages other than English?**
 A: Yes. Prompts are bilingual (EN/中文), and shadows can be built in any language. Documentation is currently EN + 中文. PRs for other languages welcome.
