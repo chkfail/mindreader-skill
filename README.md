@@ -27,7 +27,7 @@ Then do three things with it:
 
 📐 **Calibrate Mode `/mindreader calibrate`** — Feed in a real conversation. The shadow predicts the second half. See how close it gets.
 
-> This is a **hypothesis generator**, not mind-reading. It won't tell you "the truth." It will tell you **the possibilities you didn't think of.** That distinction matters. There's a whole section on it below.
+> This is a **hypothesis generator**, not real mind-reading. It won't tell you "the truth." It will tell you **the possibilities you didn't think of.** That distinction matters. There's a whole section on it below.
 
 ---
 
