@@ -7,6 +7,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-AgentSkill-purple)](https://github.com/anthropics/claude-code)
+[![OpenClaw](https://img.shields.io/badge/OpenClaw-小龙虾-red)](https://openclaw.com)
 [![Stars](https://img.shields.io/github/stars/chkfail/mindreader-skill?style=social)](https://github.com/chkfail/mindreader-skill)
 
 [中文版 README](./README.zh.md) · [Demo](#-demo) · [Quickstart](#-quickstart) · [FAQ](#-faq)
@@ -239,23 +240,35 @@ If you read all three of those paragraphs and still want to use it: welcome. If 
 
 ## 🚀 Quickstart
 
-**Prerequisite:** install [Claude Code](https://github.com/anthropics/claude-code) first. This repository is a Skill for Claude Code, not a standalone app. Thanks to `@anthropics` for the underlying toolchain.
+**Prerequisite:** install [Claude Code](https://github.com/anthropics/claude-code) or [OpenClaw](https://openclaw.com) first. This repository is a Skill, not a standalone app.
 
-### macOS / Linux
+### Option A: OpenClaw — One-sentence install
+
+Open OpenClaw and say:
+
+```
+帮我安装 https://github.com/chkfail/mindreader-skill 这个技能，并教我如何使用
+```
+
+Done. OpenClaw will handle the rest.
+
+### Option B: Claude Code — Manual install
+
+#### macOS / Linux
 
 ```bash
 # Install globally
 git clone https://github.com/chkfail/mindreader-skill ~/.claude/skills/mindreader
 ```
 
-### Windows PowerShell
+#### Windows PowerShell
 
 ```powershell
 # Install globally
 git clone https://github.com/chkfail/mindreader-skill "$HOME\\.claude\\skills\\mindreader"
 ```
 
-### Windows CMD
+#### Windows CMD
 
 ```bat
 :: Install globally
